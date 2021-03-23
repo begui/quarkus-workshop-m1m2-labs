@@ -3,3 +3,30 @@
 This is the source code for the https://github.com/RedHatWorkshops/quarkus-workshop[Quarkus Workshop].
 
 This workshop focuses on https://quarkus.io[Quarkus], supersonic, subatomic container-native Java. The workshop uses https://eclipse.org/che[Eclipse Che] to develop Quarkus apps and deploy them to a Kubernetes cluster (based on OpenShift), and covers several other developer topics.
+
+
+
+
+
+curl http://localhost:8080/health/ready
+
+curl http://localhost:8080/health/live
+
+
+
+
+
+Quarkus itself is configured via the same mechanism as your application. Quarkus reserves the quarkus. namespace in application.properties for its own configuration.
+
+It is also possible to generate an example application.properties with all known configuration properties, to make it easy to see what Quarkus configuration options are available depending on which extensions you’ve enabled. To do this, open a Terminal and run:
+
+    mvn -q quarkus:generate-config -f quarkus-workshop-m1m2-labs
+
+
+
+
+The syntax for this is %{profile}.config.key=value. For example if I have the following: (do not copy this code!):
+
+quarkus.http.port=9090
+%dev.quarkus.http.port=8181
+

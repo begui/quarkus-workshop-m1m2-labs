@@ -11,14 +11,32 @@ import static org.hamcrest.CoreMatchers.startsWith;
 @QuarkusTest
 public class GreetingResourceTest {
 
+
     @Test
     public void testHelloEndpoint() {
         given()
           .when().get("/hello")
           .then()
              .statusCode(200)
-             .body(is("hello"));
+             .body(is("hello quarkus in dev mode!")); // Modified line
     }
 
+
+
     // add more tests
+
+
+
+    @Test
+    public void testGreetingEndpoint() {
+        String uuid = UUID.randomUUID().toString();
+        given()
+          .pathParam("name", uuid)
+          .when().get("/hello/greeting/{name}")
+          .then()
+            .statusCode(200)
+            .body(startsWith("hello " + uuid));
+    }
+
+
 }
