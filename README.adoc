@@ -30,3 +30,37 @@ The syntax for this is %{profile}.config.key=value. For example if I have the fo
 quarkus.http.port=9090
 %dev.quarkus.http.port=8181
 
+
+
+
+list all extenions 
+
+    mvn -q quarkus:list-extensions -f quarkus-workshop-m1m2-labs
+
+
+
+
+
+Seciton 2
+
+mvn -q quarkus:add-extension -Dextensions="hibernate-orm-panache, jdbc-h2, jdbc-postgresql, resteasy-jsonb" -f $CHE_PROJECTS_ROOT/quarkus-workshop-m1m2-labs
+mvn -q quarkus:add-extension -Dextensions="smallrye-openapi" -f $CHE_PROJECTS_ROOT/quarkus-workshop-m1m2-labs
+
+
+OpenAPI 
+
+yaml 
+
+    curl http://localhost:8080/openapi
+
+if you want json instead of yaml 
+
+    curl -H "Accept: application/json" http://localhost:8080/openapi
+
+
+
+Swagger 
+
+http://localhost:8080/swagger-ui
+
+
