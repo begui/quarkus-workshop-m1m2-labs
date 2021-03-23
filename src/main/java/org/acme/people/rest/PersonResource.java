@@ -37,9 +37,35 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 
 
+import io.vertx.axle.core.eventbus.EventBus;
+import javax.inject.Inject;
+
+
+import javax.ws.rs.POST;
+import java.util.concurrent.CompletionStage;
+import io.vertx.axle.core.eventbus.Message;
+
+
+
+
+
+
+
 @Path("/person")
 @ApplicationScoped
 public class PersonResource {
+
+
+/*
+    The EventBus object provides methods to:
+
+    Send a message to a specific address - one single consumer receives the message
+
+    Publish a message to a specific address - all consumers receive the messages
+
+    Send a message and expect reply
+*/
+    @Inject EventBus bus;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -161,6 +187,29 @@ public List<Person> getBeforeYear(
             Person.persist(p);
         }
     }
+
+
+
+
+    //curl -s -X POST http://localhost:8080/person/joe  | jq
+
+    @POST
+    @Path("/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CompletionStage<Person> addPerson(@PathParam("name") String name) {
+        return bus.<Person>send("add-person", name) 
+          .thenApply(Message::body); 
+    }
+
+    //curl -s http://localhost:8080/person/name/joe | jq
+
+    @GET
+    @Path("/name/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Person byName(@PathParam("name") String name) {
+        return Person.find("name", name).firstResult();
+    }
+
 
 
 
